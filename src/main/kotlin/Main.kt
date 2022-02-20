@@ -73,8 +73,8 @@ fun main(args: Array<String>) {
 class Wallet(val name: String, var price: Double, var amount: Double) {
 
     override fun toString(): String = println(
-        "Nome da ação é " + name + ", comprou " + amount +
-                " unidadess, com um preço médio de R$" + ((amount * price) / amount) + ". Valor total do investimento: R$" + (amount * price)
+        "Nome da ação: " + name + "\nComprou " + amount +
+                " unidadess, com um preço médio de R$" + ((amount * price) / amount) + "\nValor total do investimento: R$" + (amount * price) +"\n"
     ).toString()
 }
 
