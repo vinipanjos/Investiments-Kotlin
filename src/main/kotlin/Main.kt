@@ -75,15 +75,25 @@ fun main(args: Array<String>) {
     }
 }
 
-class Wallet(val name: String, var price: Double, var amount: Double, var count: Int, var averagePrice: Double) {
+class Acao(val name:String, val price: Double, val amount:Int)
 
-    override fun toString(): String = println(
-        "Nome da ação: " + name + "\nComprou " + amount +
-                " unidadess, com um preço médio de R$" + averagePrice + "\nValor total do investimento: R$" + averagePrice * amount + "\n"
-    ).toString()
+class Wallet() {
+
+    fun addAcao(acao: Acao) {
+         //
+    }
+    /*
+    [Oi(100, 100, 100), ],
+    [Vivo],
+    []
+     */
+
 }
 
-
+//    override fun toString(): String = println(
+//        "Nome da ação: " + name + "\nComprou " + amount +
+//                " unidadess, com um preço médio de R$" + averagePrice + "\nValor total do investimento: R$" + averagePrice * amount + "\n"
+//    ).toString()
 
 
 
