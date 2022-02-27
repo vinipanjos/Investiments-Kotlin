@@ -1,99 +1,75 @@
-import kotlin.io.println as println
+fun main() {
 
-fun main(args: Array<String>) {
+    val wallet = Wallet()
 
-    val wallet = mutableListOf<Wallet>()
-    val name = mutableListOf<String>()
-    val price = mutableListOf<Double>()
-    val amount = mutableListOf<Double>()
 
-//    wallet.add(Wallet("Tim", 30.0, 20.0, 1, 30.0))
-//
-//    wallet.add(Wallet("Tim", 30.0, 20.0, 1, 30.0))
-//
-//    wallet.add(Wallet("Tim", 30.0, 20.0, 1, 30.0))
+    wallet.addAcao(Acao("Tim", 30.0, 20, 1, 30.0, 600.0))
 
-    name.add("Tim")
-    price.add(30.0)
-    amount.add(20.0)
+    wallet.addAcao(Acao("Oi", 30.0, 20, 1, 30.0, 600.0))
+    wallet.addAcao(Acao("Oi", 30.0, 20, 1, 30.0, 600.0))
 
-    name.add("Vivo")
-    price.add(25.0)
-    amount.add(20.0)
+    wallet.addAcao(Acao("Vivo", 30.0, 20, 1, 30.0, 600.0))
 
-    name.add("Claro")
-    price.add(100.0)
-    amount.add(20.0)
+    wallet.relatorio()
 
-    name.add("Oi")
-    price.add(20.0)
-    amount.add(20.0)
+}
 
-    name.add("Claro")
-    price.add(45.0)
-    amount.add(20.0)
+data class Acao(
+    val name: String,
+    var price: Double,
+    var amount: Int,
+    var count: Int,
+    var averagePrice: Double,
+    var totalPrice:Double
+)
 
-    name.add("Vivo")
-    price.add(30.0)
-    amount.add(20.0)
+class Wallet {
+    private val minhasAcoes = mutableMapOf<String, MutableList<Acao>>()
+    var acoes = mutableListOf<Acao>()
 
-    name.add("Tim")
-    price.add(10.0)
-    amount.add(20.0)
+    /*
+       Verifica se tem ação, se tem add na mesma gaveta
+       senão não tem, cria uma uma gaveta, add a ação a gaveta,
+       e add nova gaveta a carteira ou guarda roupa
+        */
+    fun addAcao(acao: Acao) {
+//        var  = mutableListOf<String>()
+//        name.add(acao.name)
+//        for (i in 0 until name.size){
+//            if (!acoes[i].equals(acao.name)){
+//                acoes.add(acao)
+//            } else{
+//                acoes[i].amount += acao.amount
+//                acoes[i].averagePrice =  (acoes[i].price + acao.price)/2
+//                acoes[i].totalPrice = acoes[i].averagePrice*acoes[i].amount
+//            }
+//        }
+        if (minhasAcoes.contains(acao.name)) {
 
-    name.add("Tim")
-    price.add(10.0)
-    amount.add(20.0)
+            minhasAcoes[acao.name]?.add(acao)
 
-    name.add("Tim")
-    price.add(10.0)
-    amount.add(20.0)
+        } else {
+            val gaveta = mutableListOf<Acao>()
+            gaveta.add(acao)
+            minhasAcoes[acao.name] = gaveta
+        }
 
-    name.add("Tim")
-    price.add(10.0)
-    amount.add(20.0)
+    }
 
-    for (i in 0 until price.size) {
-        val nome = name[i]
-        val preco = price[i]
-        val quant = amount[i]
-
-        wallet.add(Wallet(nome, preco, quant, 1, preco))
-        for (j in 0 until i) {
-            if (nome == name[j]) {
-                wallet[j].count++
-                wallet[j].amount += quant
-                wallet[j].price += preco
-                wallet[j].averagePrice = wallet[j].price / wallet[j].count
-                wallet[i] = Wallet("", 0.0, 0.0, 0, 0.0)
+    fun relatorio() {
+        println("Quantidade de ações adicionadas: ${minhasAcoes.size}")
+        println("Minhas ações: ")
+        println("--------------------------------------")
+        minhasAcoes.forEach { gaveta ->
+            println("Ação: ${gaveta.key}")
+            gaveta.value.forEach { item ->
+                println("$item")
+            }
+            println("--------------------------------------")
+            acoes.forEach{dados ->
+                println("Unificando dados das ações: ")
+                println("$dados")
             }
         }
     }
-    for (i in 0 until wallet.size) {
-        if (wallet[i].name != "")
-        wallet[i].toString()
-    }
 }
-
-class Acao(val name:String, val price: Double, val amount:Int)
-
-class Wallet() {
-
-    fun addAcao(acao: Acao) {
-         //
-    }
-    /*
-    [Oi(100, 100, 100), ],
-    [Vivo],
-    []
-     */
-
-}
-
-//    override fun toString(): String = println(
-//        "Nome da ação: " + name + "\nComprou " + amount +
-//                " unidadess, com um preço médio de R$" + averagePrice + "\nValor total do investimento: R$" + averagePrice * amount + "\n"
-//    ).toString()
-
-
-
