@@ -1,14 +1,29 @@
+import java.text.SimpleDateFormat
+import java.util.*
+
 fun main() {
 
     val wallet = Wallet()
+    var acaoValida:Boolean
+
+    do {
+        val random = Random()
+        acaoValida = true
+        println("Digite a ação e a quantidade que deseja comprar ou digite 0")
+        val acaoNome = readLine()!!.toString()
+        if (acaoNome == "0"){
+            break
+        }
+        wallet.addAcao(Acao(acaoNome, random.nextDouble(), readLine()!!.toInt(), " "))
+
+    }while (acaoValida)
 
 
-    wallet.addAcao(Acao("Tim", 30.0, 20, 1, 30.0, 600.0))
 
-    wallet.addAcao(Acao("Oi", 30.0, 20, 1, 30.0, 600.0))
-    wallet.addAcao(Acao("Oi", 30.0, 20, 1, 30.0, 600.0))
+    wallet.addAcao(Acao("Oi", 30.0, 20, " "))
+    wallet.addAcao(Acao("Oi", 50.0, 20, " "))
 
-    wallet.addAcao(Acao("Vivo", 30.0, 20, 1, 30.0, 600.0))
+    wallet.addAcao(Acao("Vivo", 30.0, 20, " "))
 
     wallet.relatorio()
 
@@ -18,14 +33,11 @@ data class Acao(
     val name: String,
     var price: Double,
     var amount: Int,
-    var count: Int,
-    var averagePrice: Double,
-    var totalPrice:Double
+    var date: String
 )
 
 class Wallet {
     private val minhasAcoes = mutableMapOf<String, MutableList<Acao>>()
-    var acoes = mutableListOf<Acao>()
 
     /*
        Verifica se tem ação, se tem add na mesma gaveta
@@ -33,17 +45,11 @@ class Wallet {
        e add nova gaveta a carteira ou guarda roupa
         */
     fun addAcao(acao: Acao) {
-//        var  = mutableListOf<String>()
-//        name.add(acao.name)
-//        for (i in 0 until name.size){
-//            if (!acoes[i].equals(acao.name)){
-//                acoes.add(acao)
-//            } else{
-//                acoes[i].amount += acao.amount
-//                acoes[i].averagePrice =  (acoes[i].price + acao.price)/2
-//                acoes[i].totalPrice = acoes[i].averagePrice*acoes[i].amount
-//            }
-//        }
+        val date = Calendar.getInstance().time
+        val dateTimeFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+        val dataCompra = dateTimeFormat.format(date)
+        acao.date = dataCompra
+
         if (minhasAcoes.contains(acao.name)) {
 
             minhasAcoes[acao.name]?.add(acao)
@@ -57,19 +63,27 @@ class Wallet {
     }
 
     fun relatorio() {
+
+
         println("Quantidade de ações adicionadas: ${minhasAcoes.size}")
         println("Minhas ações: ")
         println("--------------------------------------")
+
         minhasAcoes.forEach { gaveta ->
             println("Ação: ${gaveta.key}")
+            var quant = 0
+            var precoTotal = 0.0
             gaveta.value.forEach { item ->
-                println("$item")
+
+//                println("$item")
+                quant += item.amount
+                precoTotal += (item.amount * item.price)
+                println("Nome: ${item.name}, Quantidade: ${item.amount}, Preço:  ${item.price}, Data: ${item.date}")
             }
+
+            println("Relatorio: \nPreco total: $precoTotal, Quantidade: $quant, Preço médio: ${precoTotal/quant}")
             println("--------------------------------------")
-            acoes.forEach{dados ->
-                println("Unificando dados das ações: ")
-                println("$dados")
-            }
+
         }
     }
 }
